@@ -1,6 +1,6 @@
 def label = "mypod-${UUID.randomUUID().toString()}"
 podTemplate(label: label, 
-  serviceAccount: 'jenkins-jenkins',
+  serviceAccount: 'wendy-jenkins',
   containers: [
     containerTemplate(
       name: 'docker', 
@@ -40,8 +40,8 @@ podTemplate(label: label,
             dir('first-app') {
               sh """
                 docker build \
-                  -t desdrury/first-app:${VERSION}.${COMMIT}  \
-                  -t desdrury/first-app:latest \
+                  -t wxlam/first-app:${VERSION}.${COMMIT}  \
+                  -t wxlam/first-app:latest \
                   .
               """
             }
@@ -51,8 +51,8 @@ podTemplate(label: label,
         stage('Push image') {
           withDockerRegistry([credentialsId: 'docker-hub-user']) {
             withEnv(['VERSION=' + env.VERSION.trim(), 'COMMIT=' + env.COMMIT.trim()]) {
-              sh "docker push desdrury/first-app:${VERSION}.${COMMIT}"
-              sh 'docker push desdrury/first-app:latest'
+              sh "docker push wxlam/first-app:${VERSION}.${COMMIT}"
+              sh 'docker push wxlam/first-app:latest'
             }
           }
         }
@@ -64,12 +64,12 @@ podTemplate(label: label,
           dir('charts') {
             withEnv(['VERSION=' + env.version.trim(), 'COMMIT=' + env.commit.trim()]) {
               sh """
-                helm upgrade --install first-app \
-                  --namespace production \
-                  --set image.repository=desdrury/first-app \
+                helm upgrade --install wendy-first-app \
+                  --namespace wendy \
+                  --set image.repository=wxlam/first-app \
                   --set image.tag=${VERSION}.${COMMIT} \
                   --set ingress.enabled=true \
-                  --set ingress.hosts[0]=first-app.192.168.99.100.nip.io \
+                  --set ingress.hosts[0]=first-app.wendy.do.citopro.com \
                   first-app
               """
             }

@@ -6,7 +6,7 @@ Master:
   Image:    jenkins/jenkins
   ImageTag: 2.136
   ServiceType: ClusterIP
-  HostName:    jenkins.<name>.do.citopro.com
+  HostName:    jenkins.wendy.do.citopro.com
 
   Ingress:
     Annotations:

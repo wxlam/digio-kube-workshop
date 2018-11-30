@@ -19,7 +19,7 @@ server:
   ingress:
     enabled: true
     hosts:
-      - prometheus.<name>.do.citopro.com
+      - prometheus.wendy.do.citopro.com
     annotations:
       kubernetes.io/ingress.class: nginx
   
